@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChordPro to HTML</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .container { display: flex; gap: 2rem; }
+    textarea { width: 50%; min-height: 400px; font-family: monospace; font-size: 14px; }
+    #preview { width: 50%; border: 1px solid #ccc; padding: 1rem; }
+
+    /* renderer styles for preview */
+    .song-title { margin: 0 0 0.25em; }
+    .song-subtitle { margin: 0 0 0.5em; font-weight: normal; }
+    .comment { font-style: italic; margin: 0.5em 0; }
+    .comment-box { border: 1px solid #000; padding: 0.25em 0.5em; font-style: normal; }
+    .section { margin: 1em 0; }
+    .section-chorus { border-left: 3px solid #000; padding-left: 0.75em; }
+    .section-tab { font-family: monospace; white-space: pre; font-weight: bold; line-height: 0.5; }
+    .section-tab .line { display: block; }
+    .section-label { font-weight: bold; margin-bottom: 0.25em; }
+    .line { display: flex; flex-wrap: wrap; margin: 0; line-height: 1.1; }
+    .chord-lyric { display: inline-flex; flex-direction: column; margin-right: 0; }
+    .chord { font-weight: bold; color: #d00; font-size: 0.9em; min-height: 1.2em; white-space: pre; }
+    .lyric { white-space: pre; }
+    .empty-line { height: 1em; }
+    .meta { color: #666; margin: 0.25em 0; }
+  </style>
+</head>
+<body>
+  <h1>ChordPro to HTML</h1>
+  <div class="container">
+    <textarea id="editor" placeholder="Paste ChordPro here...">{title: Amazing Grace}
+{subtitle: John Newton}
+{key: G}
+{comment: Capo 2}
+
+{start_of_verse: Verse 1}
+[G]Amazing [G7]grace, how [C]sweet the [G]sound
+That [G]saved a [Em]wretch like [D]me
+[G]I once was [G7]lost, but [C]now am [G]found
+Was [G]blind, but [D7]now I [G]see
+{end_of_verse}
+
+{start_of_chorus}
+[G]Through many [G7]dangers, [C]toils and [G]snares
+I [Em]have al[D]ready [G]come
+{end_of_chorus}
+
+{start_of_tab}
+e|---3---3---0---3---|
+B|---0---0---1---0---|
+G|---0---0---0---0---|
+D|---0---0---2---0---|
+A|---2---x---3---2---|
+E|---3---3-------3---|
+{end_of_tab}</textarea>
+    <div id="preview"></div>
+  </div>
+  <script type="module">
+    import { chordproToHtml } from "../lib/index.ts";
+
+    const editor = document.getElementById("editor");
+    const preview = document.getElementById("preview");
+
+    function update() {
+      preview.innerHTML = chordproToHtml(editor.value);
+    }
+
+    editor.addEventListener("input", update);
+    update();
+  </script>
+</body>
+</html>
