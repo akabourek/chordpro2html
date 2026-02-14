@@ -3,11 +3,44 @@ import { chordproToHtml } from "../lib/index.js";
 
 const args = process.argv.slice(2);
 
-if (args.length === 0) {
-  console.error("Usage: chordpro2html <file.chordpro>");
+function printUsage(): void {
+  console.error(
+    "Usage: chordpro2html [options] <file.chordpro>\n\n" +
+    "Options:\n" +
+    "  -t, --transpose N  Transpose by N semitones\n" +
+    "  -h, --help         Show this help message"
+  );
+}
+
+let transpose: number | undefined;
+let file: string | undefined;
+
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (arg === "-h" || arg === "--help") {
+    printUsage();
+    process.exit(0);
+  } else if (arg === "-t" || arg === "--transpose") {
+    const val = args[++i];
+    if (val === undefined || isNaN(Number(val))) {
+      console.error("Error: --transpose requires a numeric argument");
+      process.exit(1);
+    }
+    transpose = Number(val);
+  } else if (arg.startsWith("-")) {
+    console.error(`Unknown option: ${arg}`);
+    printUsage();
+    process.exit(1);
+  } else {
+    file = arg;
+  }
+}
+
+if (!file) {
+  printUsage();
   process.exit(1);
 }
 
-const input = readFileSync(args[0], "utf-8");
-const html = chordproToHtml(input);
+const input = readFileSync(file, "utf-8");
+const html = chordproToHtml(input, { transpose });
 process.stdout.write(html);
