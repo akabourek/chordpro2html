@@ -26,10 +26,32 @@
     .lyric { white-space: pre; }
     .empty-line { height: 1em; }
     .meta { color: #666; margin: 0.25em 0; }
+
+    /* print styles */
+    @media print {
+      body > h1, .container > textarea, .print-btn { display: none; }
+      .container { display: block; }
+      #preview { width: 100%; border: none; }
+    }
+
+    .print-btn {
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .print-btn:hover {
+      background: #0052a3;
+    }
   </style>
 </head>
 <body>
   <h1>ChordPro to HTML</h1>
+  <button class="print-btn" onclick="window.print()">🖨️ Print</button>
   <div class="container">
     <textarea id="editor" placeholder="Paste ChordPro here...">{title: Amazing Grace}
 {subtitle: John Newton}

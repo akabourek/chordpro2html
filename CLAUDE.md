@@ -17,6 +17,7 @@ npm install          # install dependencies
 npm run build        # compile TypeScript
 npm run dev          # run web client in dev mode
 npm test             # run all tests
+npm run test:watch   # run tests in watch mode
 npm run lint         # lint with ESLint
 npx tsx src/cli/index.ts <file.chordpro>  # run CLI during development
 ```
