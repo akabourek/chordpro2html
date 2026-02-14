@@ -51,5 +51,5 @@ if (!file) {
 }
 
 const input = readFileSync(file, "utf-8");
-const html = chordproToHtml(input, { transpose, columns });
+const html = chordproToHtml(input, { transpose, columns, fullPage: true });
 process.stdout.write(html);
