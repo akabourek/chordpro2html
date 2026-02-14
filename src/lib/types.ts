@@ -41,6 +41,8 @@ export interface Song {
 export interface RenderOptions {
   /** Wrap output in a full HTML document (default: false) */
   fullPage?: boolean;
+  /** Number of columns for layout (default: 1) */
+  columns?: number;
 }
 
 /** Notation system: standard (B = B natural) or German (H = B natural, B = Bb) */

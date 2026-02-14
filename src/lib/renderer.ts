@@ -71,14 +71,14 @@ const DEFAULT_STYLES = `
 .song-subtitle { margin: 0 0 0.5em; font-weight: normal; }
 .comment { font-style: italic; margin: 0.5em 0; }
 .comment-box { border: 1px solid #000; padding: 0.25em 0.5em; font-style: normal; }
-.section { margin: 1em 0; }
+.section { margin: 1em 0; break-inside: avoid; }
 .section-chorus { border-left: 3px solid #000; padding-left: 0.75em; }
 .section-tab { font-family: monospace; white-space: pre; font-weight: bold; line-height: 0.5; }
 .section-tab .line { display: block; }
 .section-label { font-weight: bold; margin-bottom: 0.25em; }
 .line { display: flex; flex-wrap: wrap; margin: 0; line-height: 1.1; }
 .chord-lyric { display: inline-flex; flex-direction: column; margin-right: 0; }
-.chord { font-weight: bold; color: #d00; font-size: 0.9em; min-height: 1.2em; white-space: pre; }
+.chord { font-weight: bold; color: #d00; font-size: 0.9em; min-height: 1.2em; white-space: pre; padding-right: 0.4em; }
 .lyric { white-space: pre; }
 .empty-line { height: 1em; }
 .meta { color: #666; margin: 0.25em 0; }
@@ -95,6 +95,9 @@ export function render(song: Song, options: RenderOptions = {}): string {
 
   const body = song.nodes.map(renderNode).join("\n");
 
+  const columns = options.columns && options.columns > 1 ? options.columns : 0;
+  const columnStyle = columns ? ` style="column-count: ${columns}"` : "";
+
   if (options.fullPage) {
     return `<!DOCTYPE html>
 <html lang="en">
@@ -106,11 +109,15 @@ ${DEFAULT_STYLES}
 </style>
 </head>
 <body>
-<div class="song">
+<div class="song"${columnStyle}>
 ${body}
 </div>
 </body>
 </html>`;
+  }
+
+  if (columnStyle) {
+    return `<div${columnStyle}>\n${body}\n</div>`;
   }
 
   return body;

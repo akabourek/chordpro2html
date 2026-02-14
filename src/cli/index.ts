@@ -8,11 +8,13 @@ function printUsage(): void {
     "Usage: chordpro2html [options] <file.chordpro>\n\n" +
     "Options:\n" +
     "  -t, --transpose N  Transpose by N semitones\n" +
+    "  -c, --columns N    Number of columns (default: 1)\n" +
     "  -h, --help         Show this help message"
   );
 }
 
 let transpose: number | undefined;
+let columns: number | undefined;
 let file: string | undefined;
 
 for (let i = 0; i < args.length; i++) {
@@ -27,6 +29,13 @@ for (let i = 0; i < args.length; i++) {
       process.exit(1);
     }
     transpose = Number(val);
+  } else if (arg === "-c" || arg === "--columns") {
+    const val = args[++i];
+    if (val === undefined || isNaN(Number(val)) || Number(val) < 1) {
+      console.error("Error: --columns requires a positive number");
+      process.exit(1);
+    }
+    columns = Number(val);
   } else if (arg.startsWith("-")) {
     console.error(`Unknown option: ${arg}`);
     printUsage();
@@ -42,5 +51,5 @@ if (!file) {
 }
 
 const input = readFileSync(file, "utf-8");
-const html = chordproToHtml(input, { transpose });
+const html = chordproToHtml(input, { transpose, columns });
 process.stdout.write(html);
