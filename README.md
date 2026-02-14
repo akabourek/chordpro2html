@@ -10,6 +10,8 @@ npm install
 
 ## Web Application
 
+![Web application screenshot](img/screenshot.png)
+
 Start the development server:
 
 ```bash
